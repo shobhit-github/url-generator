@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0afc5f3d-c754-4ba0-917c-dffa09df6f96" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -11,7 +11,18 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Shobhit Sharma &lt;shobhitsharma.1129@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
   </component>
   <component name="ProjectId" id="1hRr1mRjlxV8rQyovgf9MmuVIWa" />
   <component name="ProjectViewState">
@@ -22,10 +33,20 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
   </component>
   <component name="RunManager" selected="npm.Angular CLI Server">
     <configuration name="Tests (url-generator)" type="JavaScriptTestRunnerKarma">
@@ -56,6 +77,21 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.build" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -66,17 +102,58 @@
       <option name="presentableId" value="Default" />
       <updated>1599984532901</updated>
       <workItem from="1599984534296" duration="141000" />
-      <workItem from="1599984702623" duration="50000" />
+      <workItem from="1599984702623" duration="2773000" />
+      <workItem from="1599995136651" duration="6434000" />
     </task>
+    <task id="LOCAL-00001" summary="Assignment Url Generate">
+      <created>1600002199858</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600002199858</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Assignment Url Generate" />
+    <option name="LAST_COMMIT_MESSAGE" value="Assignment Url Generate" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="447" y="134" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1599997305217">
+      <screen x="53" y="24" width="1313" height="744" />
+    </state>
+    <state x="447" y="134" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/53.24.1313.744@53.24.1313.744" timestamp="1599997305217" />
+    <state x="332" y="24" key="CommitChangelistDialog2" timestamp="1600002199399">
+      <screen x="53" y="24" width="1313" height="744" />
+    </state>
+    <state x="332" y="24" key="CommitChangelistDialog2/53.24.1313.744@53.24.1313.744" timestamp="1600002199399" />
+    <state width="1292" height="263" key="GridCell.Tab.0.bottom" timestamp="1600000732814">
+      <screen x="53" y="24" width="1313" height="744" />
+    </state>
+    <state width="1292" height="263" key="GridCell.Tab.0.bottom/53.24.1313.744@53.24.1313.744" timestamp="1600000732814" />
+    <state width="1292" height="263" key="GridCell.Tab.0.center" timestamp="1600000732814">
+      <screen x="53" y="24" width="1313" height="744" />
+    </state>
+    <state width="1292" height="263" key="GridCell.Tab.0.center/53.24.1313.744@53.24.1313.744" timestamp="1600000732814" />
+    <state width="1292" height="263" key="GridCell.Tab.0.left" timestamp="1600000732812">
+      <screen x="53" y="24" width="1313" height="744" />
+    </state>
+    <state width="1292" height="263" key="GridCell.Tab.0.left/53.24.1313.744@53.24.1313.744" timestamp="1600000732812" />
+    <state width="1292" height="263" key="GridCell.Tab.0.right" timestamp="1600000732814">
+      <screen x="53" y="24" width="1313" height="744" />
+    </state>
+    <state width="1292" height="263" key="GridCell.Tab.0.right/53.24.1313.744@53.24.1313.744" timestamp="1600000732814" />
     <state x="226" y="24" key="SettingsEditor" timestamp="1599984677698">
       <screen x="53" y="24" width="1313" height="744" />
     </state>
     <state x="226" y="24" key="SettingsEditor/53.24.1313.744@53.24.1313.744" timestamp="1599984677698" />
+    <state x="309" y="119" key="Vcs.Push.Dialog.v2" timestamp="1600002204709">
+      <screen x="53" y="24" width="1313" height="744" />
+    </state>
+    <state x="309" y="119" key="Vcs.Push.Dialog.v2/53.24.1313.744@53.24.1313.744" timestamp="1600002204709" />
   </component>
 </project>
