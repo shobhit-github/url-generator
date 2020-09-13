@@ -10,12 +10,13 @@ const password = '1234';
 const database = 'UrlGen';
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
+const unirest = require("unirest");
+const apiKey = "aa61eced93msh98c941b19e19ec8p17c0e3jsn0bb9aa240a27";
 
 
 const connection = mysql.createConnection({host, user, password, database});
 
-connection.connect(function(err) {
+connection.connect(function (err) {
     if (err) {
         console.error('error connecting: ' + err.stack);
         return;
@@ -26,7 +27,7 @@ connection.connect(function(err) {
 const applicationDir = path.join(__dirname, 'dist', 'url-generator');
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({extended: false}))
 
 // parse application/json
 app.use(bodyParser.json());
@@ -39,13 +40,69 @@ app.get('/', (req, res) => res.sendFile(path.join(applicationDir + '/index.html'
 
 app.post('/getUrl', (req, res) => {
 
-    const query = mysql.format( 'CALL UrlGen.saveUrl(?)', [req.body.url] );
+    const query = mysql.format('CALL UrlGen.saveUrl(?)', [req.body.url]);
 
-	connection.query(query, function (err, result){
+    connection.query(query, function (err, result) {
         if (err) {
             return res.status(500).json({status: false, message: 'Internal Server Error'})
         }
-        return res.status(200).json({status: true, message: 'Url Generated Successfully', result: result[0]})
+
+        executeTraffic( result[0][0], function (err, response) {
+            if (err) {
+                return res.status(500).json({status: false, message: 'Unable to read URL: ' + result[0][0].actualPath, error: err})
+            }
+
+            return res.status(200).json({status: true, message: 'Url Generated Successfully', result: response})
+        } )
+
+    })
+});
+
+
+const executeTraffic = (urlObject, callback) => {
+
+    console.log(urlObject)
+    const webhookReq = unirest("GET", "https://similarweb2.p.rapidapi.com/trafficoverview");
+    webhookReq.headers({ "x-rapidapi-host": "similarweb2.p.rapidapi.com", "x-rapidapi-key": apiKey, "useQueryString": true });
+    webhookReq.query({"website": encodeURI(urlObject.actualPath)});
+
+    let countryArr = [];
+
+    webhookReq.end(function (result) {
+
+        if (result.error) {
+            return callback( result.error, false);
+        }
+
+        const apiResponse = result.body;
+
+        if (apiResponse.trafficShareByCountry.length) {
+            countryArr = apiResponse.trafficShareByCountry.map(va => Object.keys(va)).map( k => k[0]);
+        }
+        console.log(countryArr)
+        const query = mysql.format('CALL UrlGen.saveAnalytics(?,?,?,?)', [urlObject.id, apiResponse.engagement.totalVisits, countryArr.join(), JSON.stringify(apiResponse) ]);
+
+        connection.query(query, function (err, okResponse) {
+            console.log(err)
+            if (err) {
+                return callback( err, false);
+            }
+
+            return  callback(false, okResponse[0])
+
+        })
+    });
+}
+
+app.get('/stats', (req, res) => {
+
+    connection.query('CALL UrlGen.getAnalytics()', function (err, okResponse) {
+        if (err) {
+            return res.status(500).json({status: false, message: 'Error Inter Issue'})
+        }
+
+        return res.status(200).json({status: true, message: 'data Retrieved', result: okResponse[0]})
+
     })
 });
 

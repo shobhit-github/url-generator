@@ -1,13 +1,28 @@
 
 <h3>{{title}}</h3>
 
-<div>
+<div style="border-bottom: 1px solid; border-bottom-right-radius: inherit; border-bottom-left-radius: inherit;">
     <form name="generator">
         <label for="url">Enter Url</label>
         <input type="text" name="url" id="url" [(ngModel)]="url" [placeholder]="'Please enter url you want to generate'" />
 
-        <input type="button" (click)="generateUrl(url)" value="Generate">
+        <input [disabled]="loading" type="button" (click)="generateUrl(url)" [value]="loading ? 'Please wait...' : 'Generate'">
+        <input type="button" (click)="showAnalytics()" [value]="loading ? 'Please wait...' : 'Show Analytics'">
 
         <p>{{generatedUrl}}</p>
     </form>
+</div>
+
+
+
+<div *ngIf="showStats">
+    <ul>
+        <li *ngFor="let data of analyticsData">
+            <h2> {{data.actualPath}} </h2>
+            <h4> {{data.url}} </h4>
+
+            <p> <strong>Total Clicks: </strong> <small>{{data.totalVisit}}</small>  </p>
+            <p> <strong>Countries: </strong> <small>{{data.countries}}</small>  </p>
+        </li>
+    </ul>
 </div>

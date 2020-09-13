@@ -29,14 +29,40 @@ ON COMPLETION NOT PRESERVE
 ENABLE
 DO DELETE FROM UrlGen.urls WHERE urls.createdAt < DATE_SUB(NOW() ,INTERVAL 30 DAY)
 
-SET GLOBAL event_scheduler = ON;
+-- SET GLOBAL event_scheduler = ON;
+
+--
+-- Table structure for table `Analytics`
+--
+
+DROP TABLE IF EXISTS `Analytics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Analytics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `totalVisit` varchar(100) DEFAULT NULL,
+  `countries` varchar(200) DEFAULT NULL,
+  `raw_data` text,
+  `url_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Analytics_FK` (`url_id`),
+  CONSTRAINT `Analytics_FK` FOREIGN KEY (`url_id`) REFERENCES `urls` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Analytics`
+--
+
+LOCK TABLES `Analytics` WRITE;
+/*!40000 ALTER TABLE `Analytics` DISABLE KEYS */;
+INSERT INTO `Analytics` VALUES (1,'186350000','United States,United Kingdom,Germany,Japan,Canada','{\"engagement\":{\"avgVisitDuration\":291,\"bounceRate\":0.4237,\"pagesPerVisit\":6.46,\"totalVisits\":186350000},\"monthlyVisitsEstimate\":{\"2020-03-01\":193700000,\"2020-04-01\":205200000,\"2020-05-01\":197300000,\"2020-06-01\":181200000,\"2020-07-01\":186100000,\"2020-08-01\":186300000},\"name\":\"dropbox.com\",\"trafficShareByCountry\":[{\"United States\":0.3458},{\"United Kingdom\":0.0556},{\"Germany\":0.0431},{\"Japan\":0.042},{\"Canada\":0.0343}],\"trafficSources\":{\"Direct\":0.5601,\"Mail\":0.1744,\"Paid Referrals\":0.0096,\"Referrals\":0.1013,\"Search\":0.081,\"Social\":0.0733}}',1),(2,'587330','India,United States,Brazil,United Kingdom,Netherlands','{\"engagement\":{\"avgVisitDuration\":72,\"bounceRate\":0.8784,\"pagesPerVisit\":1.16,\"totalVisits\":587330},\"monthlyVisitsEstimate\":{\"2020-03-01\":625800,\"2020-04-01\":664300,\"2020-05-01\":630900,\"2020-06-01\":532100,\"2020-07-01\":584200,\"2020-08-01\":587300},\"name\":\"jsonlint.com\",\"trafficShareByCountry\":[{\"India\":0.2044},{\"United States\":0.1719},{\"Brazil\":0.041},{\"United Kingdom\":0.0323},{\"Netherlands\":0.0291}],\"trafficSources\":{\"Direct\":0.5993,\"Mail\":0.001,\"Paid Referrals\":4.9562,\"Referrals\":0.0121,\"Search\":0.3849,\"Social\":0.0025}}',2);
+/*!40000 ALTER TABLE `Analytics` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `urls`
 --
-
-
-
 
 DROP TABLE IF EXISTS `urls`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -47,7 +73,7 @@ CREATE TABLE `urls` (
   `url` varchar(200) NOT NULL,
   `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +82,7 @@ CREATE TABLE `urls` (
 
 LOCK TABLES `urls` WRITE;
 /*!40000 ALTER TABLE `urls` DISABLE KEYS */;
-INSERT INTO `urls` VALUES (8,'https://stackoverflow.com/questions/9177049/express-js-req-body-undefined','d974d','2020-09-13 17:34:29'),(9,'https://mail.google.com/mail/u/1/#inbox','2acc7','2020-09-13 17:41:07'),(10,'https://stackoverflow.com/questions/','4010f','2020-09-13 17:41:59'),(11,'https://www.mysqltutorial.org/stored-procedures-parameters.aspx','381ab','2020-09-13 17:42:49'),(12,'https://www.w3schools.com/css/css_form.asp','77cbd','2020-09-13 17:44:27'),(13,'ajdkla','0bf75','2020-09-13 18:09:07');
+INSERT INTO `urls` VALUES (1,'https://paper.dropbox.com/doc/Build-a-URL-shortener--A7hTAYBdH83BbdsY~AKmBk8xAg-BdG2JwuLz5jG4ke1kf4Ye','82626','2020-09-13 22:00:20'),(2,'https://jsonlint.com/','a705f','2020-09-13 22:04:15');
 /*!40000 ALTER TABLE `urls` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,6 +139,50 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `getAnalytics` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `getAnalytics`()
+BEGIN
+	SELECT * FROM UrlGen.urls AS U
+		LEFT JOIN Analytics AS A ON A.url_id = U.id; 
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `saveAnalytics` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `saveAnalytics`( IN urlId INT, IN totalVisits VARCHAR(100), IN country VARCHAR(200), IN rawData TEXT )
+BEGIN
+	
+	INSERT INTO UrlGen.Analytics (url_id , totalVisit, countries, raw_data) VALUES ( urlId, totalVisits, country, rawData);
+
+	SELECT * FROM UrlGen.urls AS U
+		LEFT JOIN Analytics AS A ON A.url_id = U.id WHERE U.id = urlId; 
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `saveUrl` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -147,4 +217,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-13 18:27:44
+-- Dump completed on 2020-09-13 22:05:36
