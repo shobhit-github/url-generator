@@ -12,8 +12,8 @@ This is test assignment to generate url shortcode
 
 **Note** : Make Sure to change mysql connection to database connectivity.
 
-#### Make Build
+#### Start Server
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `start:server` to build the project and start node server
 
 Open **http://localhost:3000**
